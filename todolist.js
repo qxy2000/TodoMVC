@@ -171,36 +171,36 @@ function addTodo(msg, todoId, date) {
 
   var label = item.querySelector('.todo-label');
   label.addEventListener('click', function () {
-    item.classList.add(CL_EDITING);
-    console.log("dbclick!")
-    var edit = document.createElement('input');
-    var finished = false;
-    edit.setAttribute('type', 'text');
-    edit.setAttribute('class', 'edit');
-    edit.setAttribute('value', label.innerHTML);
+    // item.classList.add(CL_EDITING);
+    // console.log("dbclick!")
+    // var edit = document.createElement('input');
+    // var finished = false;
+    // edit.setAttribute('type', 'text');
+    // edit.setAttribute('class', 'edit');
+    // edit.setAttribute('value', label.innerHTML);
 
-    function finish() {
-      if (finished) return;
-      finished = true;
-      item.removeChild(edit);
-      item.classList.remove(CL_EDITING);
-    }
+    // function finish() {
+    //   if (finished) return;
+    //   finished = true;
+    //   item.removeChild(edit);
+    //   item.classList.remove(CL_EDITING);
+    // }
 
-    edit.addEventListener('blur', function () {
-      finish();
-    }, false);
+    // edit.addEventListener('blur', function () {
+    //   finish();
+    // }, false);
 
-    edit.addEventListener('keyup', function (ev) {
-      if (ev.keyCode === 27) { // Esc
-        finish();
-      } else if (ev.keyCode === 13) {
-        label.innerHTML = this.value;
-        finish();
-      }
-    }, false);
+    // edit.addEventListener('keyup', function (ev) {
+    //   if (ev.keyCode === 27) { // Esc
+    //     finish();
+    //   } else if (ev.keyCode === 13) {
+    //     label.innerHTML = this.value;
+    //     finish();
+    //   }
+    // }, false);
 
-    item.appendChild(edit);
-    edit.focus();
+    // item.appendChild(edit);
+    // edit.focus();
     // update();
   }, false);
 
