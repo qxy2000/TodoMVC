@@ -26,7 +26,7 @@ showHiddenBtn.addEventListener('click', function () {
   console.log(1)
   if (showHidden == 0) {
     $('#nav').style.display = "block"
-    showHiddenBtn.innerHTML = "-"
+    // showHiddenBtn.innerHTML = "-"
     showHidden = 1
   } else if (showHidden == 1) {
     $('#nav').style.display = "none"
@@ -170,7 +170,7 @@ function addTodo(msg, todoId, date) {
   })
 
   var label = item.querySelector('.todo-label');
-  label.addEventListener('dbclick', function () {
+  label.addEventListener('click', function () {
     item.classList.add(CL_EDITING);
     console.log("dbclick!")
     var edit = document.createElement('input');
@@ -201,6 +201,7 @@ function addTodo(msg, todoId, date) {
 
     item.appendChild(edit);
     edit.focus();
+    // update();
   }, false);
 
   item.querySelector('.toggle').addEventListener('change', function () {

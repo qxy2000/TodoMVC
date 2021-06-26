@@ -25,7 +25,7 @@ body {
   line-height: 1.4em;
   /* background: #f5f5f5; */
   color: #4d4d4d;
-  min-width: 230px;
+  min-width: 300px;
   max-width: 350px;
   margin: 0 auto;
   -webkit-font-smoothing: antialiased;
@@ -47,6 +47,7 @@ input[type="checkbox"] {
   margin: 130px 0 0 0;
   position: relative;
   /* box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.1); */
+  border-bottom: 7px solid #080668;
 }
 
 .todoapp input {
@@ -73,6 +74,7 @@ input[type="checkbox"] {
   font-style: italic;
   font-weight: 300;
   color: #e6e6e6;
+
 }
 /* 
 .todoapp h1 {
@@ -142,6 +144,7 @@ h1 {
 .main {
   position: relative;
   z-index: 2;
+  padding-bottom: 80px;
   /* border-top: 1px solid #e6e6e6; */
 }
 
@@ -361,10 +364,13 @@ label[for="toggle-all"] {
 }
 
 .todo-list li .stick:after {
-  content: "置顶";
+  content: "🔝";
+  color: white;
+  font-size: 200%;
 }
 .todo-list li.stickLi .stick:after {
-  content: "取消";
+  content: "⬇";
+  font-size: 200%;
 }
 
 .todo-list li:hover .stick {
@@ -458,10 +464,12 @@ label[for="toggle-all"] {
 
 .clear-completed,
 html .clear-completed:active {
-  float: right;
-  position: relative;
-  line-height: 30px;
-  text-decoration: none;
+  /* float: right; */
+  /* margin: auto; */
+  margin-left: 15px;
+  /* position: relative; */
+  /* line-height: 50px;
+  text-decoration: none; */
   cursor: pointer;
 }
 
@@ -510,9 +518,10 @@ html .clear-completed:active {
 }
 
 .nav{
-   position: absolute;
+  position: relative;
   bottom: 0;
   height: 80px;
+  margin-top: -80px;
   z-index: 999;
   /*background: #00d0ff;*/
   width: 100%;
@@ -556,6 +565,7 @@ html .clear-completed:active {
   bottom: 0;
   transition-duration: all, ease-in-out;
   cursor: pointer;
+  margin-top: -80px;
   z-index: 999;
   color: white;
   content: "+";
