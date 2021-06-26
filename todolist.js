@@ -17,8 +17,7 @@ function setStorage(name, list) {
   localStorage.setItem(name, JSON.stringify(list))
 }
 
-var remove = $('.draggable');
-
+// 控制底部filter的显示
 var showHidden = 0
 
 var showHiddenBtn = $('#fab')
@@ -40,15 +39,16 @@ var fabCtr = $(".fab-ctr")
 var nav = $(".nav")
 var closebtn = $('.close')
 //close click
+//关闭底部filter栏
 closebtn.addEventListener('click', function () {
   nav.style.display = "none";
   fab.style.display = "block";
 })
 
 var guid = 0;
-var CL_COMPLETED = 'completed';
-var CL_SELECTED = 'selected';
-var CL_EDITING = 'editing';
+// var CL_COMPLETED = 'completed';
+// var CL_SELECTED = 'selected';
+// var CL_EDITING = 'editing';
 
 function update() {
   var items = $All('.todo-list li');
@@ -58,13 +58,13 @@ function update() {
 
   for (i = 0; i < items.length; ++i) {
     item = items[i];
-    if (!item.classList.contains(CL_COMPLETED)) leftNum++;
+    if (!item.classList.contains('completed')) leftNum++;
 
     // filters
     display = 'none';
     if (filter === 'All'
-      || (filter === 'Active' && !item.classList.contains(CL_COMPLETED))
-      || (filter === 'Completed' && item.classList.contains(CL_COMPLETED))) {
+      || (filter === 'Active' && !item.classList.contains('completed'))
+      || (filter === 'Completed' && item.classList.contains('completed'))) {
 
       display = '';
     }
@@ -212,8 +212,8 @@ function addTodo(msg, todoId, date) {
 
 function updateTodo(itemId, done) {
   var item = $('#' + itemId);
-  if (done) item.classList.add(CL_COMPLETED);
-  else item.classList.remove(CL_COMPLETED);
+  if (done) item.classList.add('completed');
+  else item.classList.remove('completed');
   update();
 }
 
@@ -243,7 +243,7 @@ function clearCompletedTodoList() {
   var items = todoList.querySelectorAll('li');
   for (var i = items.length - 1; i >= 0; --i) {
     var item = items[i];
-    if (item.classList.contains(CL_COMPLETED)) {
+    if (item.classList.contains('completed')) {
       todoList.removeChild(item);
     }
   }
@@ -259,8 +259,8 @@ function toggleAllTodoList() {
     var toggle = item.querySelector('.toggle');
     if (toggle.checked !== checked) {
       toggle.checked = checked;
-      if (checked) item.classList.add(CL_COMPLETED);
-      else item.classList.remove(CL_COMPLETED);
+      if (checked) item.classList.add('completed');
+      else item.classList.remove('completed');
     }
   }
   update();
@@ -470,9 +470,9 @@ window.onload = function init() {
     (function (filter) {
       filter.addEventListener('click', function () {
         for (var j = 0; j < filters.length; ++j) {
-          filters[j].classList.remove(CL_SELECTED);
+          filters[j].classList.remove('selected');
         }
-        filter.classList.add(CL_SELECTED);
+        filter.classList.add('selected');
         update();
       }, false);
     })(filters[i])

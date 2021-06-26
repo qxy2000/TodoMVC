@@ -113,8 +113,7 @@ h1 {
   50% { border-right-color: currentColor}
 }
 
-.new-todo,
-.edit {
+.new-todo {
   position: relative;
   margin: 0;
   width: 100%;
