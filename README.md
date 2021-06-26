@@ -6,6 +6,7 @@ native HTML，CSS，JS
 页面效果图：
 
 ![total page](https://github.com/qxy2000/TodoMVC/blob/main/img/total.jpg)
+<img src="(https://github.com/qxy2000/TodoMVC/blob/main/img/total.jpg" width = "200" height = "300" alt="" align=center />
 
 功能介绍：
 
