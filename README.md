@@ -18,6 +18,7 @@ native HTML，CSS，JS
 
    因为是移动端，将通过鼠标hover后展示的删除按钮来删除改为了通过向左（或向右）活动单条todo来进行删除
    <img src="https://github.com/qxy2000/TodoMVC/blob/main/img/delete.jpg" width = "300" alt="" align=center />
+
    code：
 
    ```js
@@ -194,7 +195,7 @@ native HTML，CSS，JS
 
    
 
-开头动画效果的css实现：
+开头“todo-list”打字动画效果的css实现：
 
 ```css
 h1 {
@@ -222,7 +223,38 @@ h1 {
 }
 ```
 
+todo便签效果的css实现：
 
+```css
+.todo-list li {
+  text-decoration: none;
+  position: relative;
+  color: #000;
+  background: #ffc;
+  display: block;
+  height: 5em;
+  width: 20em;
+  padding: 1em;
+  margin: 1.5em;
+  box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
+  transform: rotate(-6deg) perspective(1px) translateZ(0);
+  transition: transform 0.15s linear;
+}
+
+.todo-list li:nth-child(even) {
+  transform: rotate(4deg);
+  position: relative;
+  top: 5px;
+  background: #cfc;
+}
+
+.todo-list li:nth-child(odd) {
+  transform: rotate(-3deg);
+  position: relative;
+  top: 5px;
+  background: #ccf;
+}
+```
 
 部署后的作业 html 地址：https://qxy2000.github.io/TodoMVC/
 
