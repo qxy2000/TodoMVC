@@ -4,15 +4,13 @@ var $ = function (sel) {
 var $All = function (sel) {
   return document.querySelectorAll(sel);
 };
-/**
-* 获取localStorage
-*/
+
+//获取localStorage
 function getStorage(name) {
   return JSON.parse(localStorage.getItem(name))
 }
-/**
- * 设置localStorage
- */
+
+//设置localStorage
 function setStorage(name, list) {
   localStorage.setItem(name, JSON.stringify(list))
 }
@@ -34,6 +32,7 @@ showHiddenBtn.addEventListener('click', function () {
   }
 })
 
+//右下角的悬浮按钮控制下边栏的显示（下边栏有过滤tag--active， completed和all）
 var fab = $(".fab")
 var fabCtr = $(".fab-ctr")
 var nav = $(".nav")
@@ -46,9 +45,7 @@ closebtn.addEventListener('click', function () {
 })
 
 var guid = 0;
-// var CL_COMPLETED = 'completed';
-// var CL_SELECTED = 'selected';
-// var CL_EDITING = 'editing';
+var sticknum = 0;  //置顶的todo个数
 
 function update() {
   var items = $All('.todo-list li');
@@ -82,9 +79,7 @@ function update() {
   toggleAll.style.visibility = items.length > 0 ? 'visible' : 'hidden';
   toggleAll.checked = items.length === completedNum;
 
-  /**
-   * 把todo保存到localStorage
-   */
+  //把todo保存到localStorage
   let todoList = []
   // console.log(items)
   for (let j = 0; j < items.length; j++) {
@@ -122,26 +117,23 @@ function addTodo(msg, todoId, date) {
     '</div>'
   ].join('');
 
-  /**
-* 模拟手机端滑动事件
-* swipe left/right => 删除单条todo
-*/
-  let oldTouch, touchObj;
+
+  // 通过左滑/右滑删除单条todo
+  let touchStart, touchObj;
   let isDelete = false;
   item.addEventListener('touchstart', function (event) {
-    oldTouch = event.touches[0];
+    touchStart = event.touches[0];
     touchObj = event.currentTarget;
     isDelete = false;
   }, false);
   item.addEventListener('touchmove', function (event) {
     let freshTouch = event.touches[0];
-    let verticalOffset = freshTouch.clientY - oldTouch.clientY;
-
-    var horizontalOffset = freshTouch.clientX - oldTouch.clientX;
+    var horizontalOffset = freshTouch.clientX - touchStart.clientX;
+    //设置过渡效果
     touchObj.style.transition = ".2s linear";
     var deviceWidth = 400;
-
-    if (Math.abs(horizontalOffset) < deviceWidth / 3) {     //移动距离过短 不判定为删除
+    //考虑移动距离过短的情况（误触）
+    if (Math.abs(horizontalOffset) < deviceWidth / 3) {
       touchObj.style.left = horizontalOffset + 'px';
     } else {
       if (horizontalOffset < 0) {     // 左滑
@@ -153,11 +145,8 @@ function addTodo(msg, todoId, date) {
     }
   }, false);
   item.addEventListener('touchend', function (event) {
-    /* 在DOM中和Model中删除该todo */
     if (isDelete && item != null) {
       item.parentNode.removeChild(item);
-      // model.data.todos.splice(index, 1);
-      // model.flush();
       update();
     } else {
       touchObj.style.left = 0;
@@ -170,8 +159,10 @@ function addTodo(msg, todoId, date) {
   })
 
   var label = item.querySelector('.todo-label');
-  label.addEventListener('click', function () {
-    // update();
+  label.addEventListener('touchend', function () {
+    console.log(label.innerHTML)
+
+    update();
   }, false);
 
   item.querySelector('.toggle').addEventListener('change', function () {
@@ -181,18 +172,16 @@ function addTodo(msg, todoId, date) {
   //item.querySelector('.destroy').addEventListener('click', function () {
   //  removeTodo(id);
   //}, false);
-  /**
-   * 绑定置顶事件
-   */
+
+  //绑定置顶事件
   item.querySelector('.stick').addEventListener('click', function () {
     // console.log(this.parentElement.children[1].innerHTML)
     stickTodo(id, this.parentElement.children[1].innerHTML, this.parentElement.lastElementChild.innerHTML);
   }, false);
 
-  todoList.insertBefore(item, todoList.firstChild);
-  /**
-   *生成计时器
-   */
+  todoList.insertBefore(item, todoList.children[sticknum]);
+
+  //生成计时器,通过setInterval函数实现
   var timer = setInterval(function () {
     var nowDate = new Date();
     var diffTime = (nowDate.getTime() - parseInt(startDate)) / 1000
@@ -224,16 +213,19 @@ function removeTodo(itemId) {
   update();
 }
 
-/**
- * 置顶
- */
+// 置顶
 function stickTodo(id, msg, startData) {
+  //若此条todo已经是置顶状态，则取消置顶
   if ($('#' + id).getAttribute('class') == 'stickLi') {
     $('#' + id).setAttribute('class', '')
-  } else {
+    sticknum = sticknum - 1;
+  }
+  //若此条todo不是是置顶状态，则置顶
+  else {
     removeTodo(id)
     addTodo(msg, id, startData)
     $('#' + id).setAttribute('class', 'stickLi')
+    sticknum = sticknum + 1;
   }
   update()
 }
@@ -266,118 +258,6 @@ function toggleAllTodoList() {
   update();
 }
 
-//   function dragStart(e) {
-//     this.style.opacity = '0.4';
-//     dragSrcEl = this;
-//     e.dataTransfer.effectAllowed = 'move';
-//     e.dataTransfer.setData('text/html', this.innerHTML);
-//   };
-
-//   function dragEnter(e) {
-//     this.classList.add('over');
-//   }
-
-//   function dragLeave(e) {
-//     e.stopPropagation();
-//     this.classList.remove('over');
-//   }
-
-//   function dragOver(e) {
-//     e.preventDefault();
-//     e.dataTransfer.dropEffect = 'move';
-//     return false;
-//   }
-
-//   function dragDrop(e) {
-//     if (dragSrcEl != this) {
-//       dragSrcEl.innerHTML = this.innerHTML;
-//       this.innerHTML = e.dataTransfer.getData('text/html');
-//     }
-//     return false;
-//   }
-
-//   function dragEnd(e) {
-//     var listItens = document.querySelectorAll('.draggable');
-//     [].forEach.call(listItens, function(item) {
-//       item.classList.remove('over');
-//     });
-//     this.style.opacity = '1';
-//   }
-
-//   function addEventsDragAndDrop(el) {
-//     el.addEventListener('dragstart', dragStart, false);
-//     el.addEventListener('dragenter', dragEnter, false);
-//     el.addEventListener('dragover', dragOver, false);
-//     el.addEventListener('dragleave', dragLeave, false);
-//     el.addEventListener('drop', dragDrop, false);
-//     el.addEventListener('dragend', dragEnd, false);
-//   }
-
-// function floatBallBtn() {
-//   var floatBtn = $(".floatBtn");
-//   //计算小球的宽高floatBtnWidth、floatBtnHeight
-//   //计算屏幕的宽高iClientWidth、iClientHeight
-//   var floatBtnWidth = floatBtn.offsetWidth;
-//   var floatBtnHeight = floatBtn.offsetHeight;
-//   var iClientWidth = document.documentElement.clientWidth;
-//   var iClientHeight = document.documentElement.clientHeight
-//   //oToucheWidth，oToucheHeight分别表示触摸点到小球左边缘和上边缘的距离。
-//   var oToucheWidth, oToucheHeight;
-//   /* 监听touchstart事件*/
-//   floatBtn.addEventListener("touchstart", function (e) {
-//     var touches = e.touches[0];
-//     /*计算触摸点到小球左边缘距离oToucheWidth和上边缘的距离oToucheHeight*/
-//     oToucheWidth = touches.clientX - floatBtn.offsetLeft;
-//     oToucheHeight = touches.clientY - floatBtn.offsetTop;
-//     document.addEventListener("touchmove", fnDefaultEvent, {
-//       passive: false
-//     });
-//   }, {
-//     passive: false
-//   })
-//   /* 监听touchmove事件*/
-//   floatBtn.addEventListener("touchmove", function (e) {
-//     var touches = e.touches[0];
-//     /*计算小球（左上角为基准）到屏幕左边缘的距离oLeft和上边缘的距离oTop*/
-//     var oLeft = touches.clientX - oToucheWidth;
-//     var oTop = touches.clientY - oToucheHeight;
-//     /* 约束oLeft和oTop的值，使小球始终在屏幕里*/
-//     if (oLeft < 0) {
-//       oLeft = 0;
-//     } else if (oLeft > iClientWidth - floatBtnWidth) {
-//       oLeft = (iClientWidth - floatBtnWidth);
-//     }
-//     if (oTop < 0) {
-//       oTop = 0;
-//     } else if (oTop > iClientHeight - floatBtnHeight) {
-//       oTop = (iClientHeight - floatBtnHeight);
-//     }
-//     /* 动态设置小球的left，top值*/
-//     floatBtn.style.left = oLeft + "px";
-//     floatBtn.style.top = oTop + "px";
-//   }, {
-//     passive: false
-//   });
-//   /* 监听touchend事件*/
-//   floatBtn.addEventListener("touchend", function (e) {
-//     document.removeEventListener("touchmove", fnDefaultEvent, {
-//       passive: false
-//     });
-//     var touches = e.touches[0];
-//     var oLeft = floatBtn.offsetLeft;
-//     /*设置小球吸附边缘效果，小球拖动结束后停在靠近的屏幕边缘*/
-//     if (oLeft < iClientWidth / 2 - floatBtnWidth / 2)
-//       floatBtn.style.left = 0 + "px";
-//     else
-//       floatBtn.style.left = iClientWidth - floatBtnWidth + 'px';
-//   }, {
-//     passive: false
-//   });
-//   /*阻止默认事件函数*/
-//   function fnDefaultEvent(e) {
-//     e.preventDefault();
-//   }
-// }
 
 function floatActionBtn() {
   var fab = $(".fab")
@@ -405,7 +285,7 @@ function floatActionBtn() {
   })
 }
 
-// When the user scrolls down 20px from the top of the document, show the button
+//当用户向下滑动20px后才会显示回到顶部按钮
 window.onscroll = function () { scrollFunction() };
 
 function scrollFunction() {
