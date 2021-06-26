@@ -5,7 +5,7 @@ native HTML，CSS，JS
 
 页面效果图：
 
-
+![total page](https://github.com/qxy2000/TodoMVC/blob/main/img/total.jpg)
 
 功能介绍：
 
