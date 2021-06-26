@@ -4,8 +4,7 @@
 native HTML，CSS，JS
 
 页面效果图：
-
-![total page](https://github.com/qxy2000/TodoMVC/blob/main/img/total.jpg)
+页面上方的todo-list添加了动画效果，可通过github pages查看
 <img src="https://github.com/qxy2000/TodoMVC/blob/main/img/total.jpg" width = "300" alt="" align=center />
 
 功能介绍：
@@ -17,6 +16,9 @@ native HTML，CSS，JS
 2. 删除单条todo
 
    因为是移动端，将通过鼠标hover后展示的删除按钮来删除改为了通过向左（或向右）活动单条todo来进行删除
+   <img src="https://github.com/qxy2000/TodoMVC/blob/main/img/delete.jpg" width = "300" alt="" align=center />
+   code：
+   
 
 3. 展现todo列表
 
